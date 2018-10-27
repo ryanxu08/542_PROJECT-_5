@@ -18,7 +18,9 @@ def one_hot(inputs, depth):
     return one_hot_vector
 
 if __name__ == "__main__":
-    o_input_seq = [1, 1, 0, 4, 3, 4, 0, 2, 0, 2, 0, 4, 3, 0, 2, 4, 5, 0, 9, 0, 4]
+    o_input_seq = [1, 1, 0, 4, 3, 4, 0, 2, 0, 2, 0, 4, 3, 0, 2, 4, 5, 0, 9, 0]
+    #o_input_seq = [0, 0,0,0,0,0,0,0,0,2,0,0,0,0,0,3, 2, 0 ,3]
+
     input_seq = one_hot(o_input_seq, depth=10)
     print('Input sequence: {}'.format(o_input_seq))
 
