@@ -42,7 +42,7 @@ class LSTMcell(object):
         f = sigmoid(np.matmul(inputs, self.wfx) + np.matmul(prev_state, self.wfh) + self.bf)
         o = sigmoid(np.matmul(inputs, self.wox) + np.matmul(prev_state, self.woh) + self.bo)
 
-        self.s = np.multiply(g, i) + np.multiply(self.s, int(f))
+        self.s = np.multiply(g, i) + np.multiply(self.s, f)
         return np.multiply(self._out_act(self.s), o)
 
     def create_paramters(self, in_dim, out_dim):

@@ -36,35 +36,6 @@ def assign_weight_count_all_0_case_1(cell, in_dim, out_dim):
     for key in param_dict:
         cell.set_config_by_name(key, param_dict[key])
 
-def assign_weight_count_all_0_case_2(cell, in_dim, out_dim, idx=0, forget = 100.):
-    """ Parameters for counting all the '0' in the squence
-
-    Input node only receives digit '0' and all the gates are
-    always open.
-
-    Args:
-        in_dim (int): dimension of input
-        out_dim (int): dimension of internal state and output
-    """
-    param_dict = {}
-    param_dict['wgx'] = [[forget] if i == idx  else [0.] for i in range(10)]
-    param_dict['wgh'] = np.zeros((out_dim, out_dim))
-    param_dict['bg'] = np.zeros((1, out_dim))
-
-    param_dict['wix'] = np.zeros((in_dim, out_dim))
-    param_dict['wih'] = np.zeros((out_dim, out_dim))
-    param_dict['bi'] =  100. * np.ones((1, out_dim))
-
-    param_dict['wfx'] = np.zeros((in_dim, out_dim))
-    param_dict['wfh'] = np.zeros((out_dim, out_dim))
-    param_dict['bf'] = forget * np.ones((1, out_dim))
-
-    param_dict['wox'] = np.zeros((in_dim, out_dim))
-    param_dict['woh'] = np.zeros((out_dim, out_dim))
-    param_dict['bo'] = 100. * np.ones((1, out_dim))
-
-    for key in param_dict:
-        cell.set_config_by_name(key, param_dict[key])
 
 def assign_weight_count_all_case_2(cell, in_dim, out_dim):
     """ Parameters for counting all the '0' in the squence
@@ -96,3 +67,53 @@ def assign_weight_count_all_case_2(cell, in_dim, out_dim):
     for key in param_dict:
         cell.set_config_by_name(key, param_dict[key])
 
+def assign_weight_count_0_task_2(cell, in_dim, out_dim):
+    param_dict = {}
+    param_dict['wgx'] = np.zeros((in_dim, out_dim))
+    param_dict['wgx'][0,0] = 100
+    param_dict['wgx'][2,1] = 100
+    param_dict['wgh'] = np.zeros((out_dim, out_dim))
+    param_dict['bg'] = np.zeros((1, out_dim))
+
+    param_dict['wix'] = np.zeros((in_dim, out_dim))
+    param_dict['wix'].fill(-200)
+    param_dict['wix'][2,1] = 100
+    param_dict['wih'] = np.array([[0., 0.], [400., 400.]])
+    param_dict['bi'] =  np.zeros((1, out_dim))
+
+    param_dict['wfx'] = np.zeros((in_dim, out_dim))
+    param_dict['wfh'] = np.zeros((out_dim, out_dim))
+    param_dict['bf'] = 100. * np.ones((1, out_dim))
+
+    param_dict['wox'] = np.zeros((in_dim, out_dim))
+    param_dict['woh'] = np.zeros((out_dim, out_dim))
+    param_dict['bo'] = 100. * np.ones((1, out_dim))
+
+    for key in param_dict:
+        cell.set_config_by_name(key, param_dict[key])
+
+def assign_weight_count_0_task_3(cell, in_dim, out_dim):
+    param_dict = {}
+    param_dict['wgx'] = np.zeros((in_dim, out_dim))
+    param_dict['wgx'][0,0] = 100
+    param_dict['wgx'][2,1] = 100
+    param_dict['wgh'] = np.zeros((out_dim, out_dim))
+    param_dict['bg'] = np.zeros((1, out_dim))
+
+    param_dict['wix'] = np.zeros((in_dim, out_dim))
+    param_dict['wix'].fill(-200)
+    param_dict['wix'][2,1] = 100
+    param_dict['wih'] = np.array([[0., 0.], [400., 400.]])
+    param_dict['bi'] =  np.zeros((1, out_dim))
+
+    param_dict['wfx'] = np.zeros((in_dim, out_dim))
+    param_dict['wfx'][3,:] = -300
+    param_dict['wfh'] = np.zeros((out_dim, out_dim))
+    param_dict['bf'] = 100. * np.ones((1, out_dim))
+
+    param_dict['wox'] = np.zeros((in_dim, out_dim))
+    param_dict['woh'] = np.zeros((out_dim, out_dim))
+    param_dict['bo'] = 100. * np.ones((1, out_dim))
+
+    for key in param_dict:
+        cell.set_config_by_name(key, param_dict[key])
