@@ -35,11 +35,9 @@ args = parser.parse_args()
 
 # Set the random seed manually for reproducibility.
 torch.manual_seed(args.seed)
-if torch.cuda.is_available():
-    if not args.cuda:
-        print("WARNING: You have a CUDA device, so you should probably run with --cuda")
 
-device = torch.device("cuda" if args.cuda else "cpu")
+
+device = torch.device("cpu")
 
 if args.temperature < 1e-3:
     parser.error("--temperature has to be greater or equal 1e-3")
@@ -48,10 +46,10 @@ with open(args.checkpoint, 'rb') as f:
     model = torch.load(f).to(device)
 model.eval()
 
-corpus = data.Corpus(args.data)
-ntokens = len(corpus.dictionary)
+inputs = data.Load_data(False)
+ntokens = inputs.ntoken
 hidden = model.init_hidden(1)
-input = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
+input = torch.randint(ntokens, (1, 1), dtype=torch.long)
 
 with open(args.outf, 'w') as outf:
     with torch.no_grad():  # no tracking history
@@ -60,7 +58,7 @@ with open(args.outf, 'w') as outf:
             word_weights = output.squeeze().div(args.temperature).exp().cpu()
             word_idx = torch.multinomial(word_weights, 1)[0]
             input.fill_(word_idx)
-            word = corpus.dictionary.idx2word[word_idx]
+            word = list(inputs.mapped_data.keys())[list(inputs.mapped_data.values()).index(word_idx)]
 
             outf.write(word + ('\n' if i % 20 == 19 else ' '))
 
